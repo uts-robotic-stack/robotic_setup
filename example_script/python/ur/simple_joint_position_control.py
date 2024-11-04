@@ -58,8 +58,8 @@ def move_ur_joint_positions(joint_positions):
         }
 
         # Publish the trajectory to the '/arm_controller/command' topic
-        topic = roslibpy.Topic(client, '/follow_joint_trajectory/goal',
-                               'control_msgs/FollowJointTrajectoryAction')
+        topic = roslibpy.Topic(client, '/scaled_pos_joint_traj_controller/command',
+                               'trajectory_msgs/JointTrajectory')
         topic.advertise()
         topic.publish(roslibpy.Message(follow_joint_action))
 

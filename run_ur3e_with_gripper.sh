@@ -63,8 +63,8 @@ docker run -d --name "ur3e_rg2_controller" \
     dkhoanguyen/robotic_base:latest \
     bash -c "source /opt/ros/noetic/setup.bash && source /ur_ws/devel/setup.bash && \
              source /onrobot_ws/devel/setup.bash && \
-             roslaunch ur_onrobot ur_onrobot_rg_bringup.launch 
+             roslaunch ur_onrobot ur_onrobot_rg_bringup.launch \
              robot_model:=ur3e \
              onrobot_model:=rg2 \
-             robot_ip:=${ROBOT_IP} \
+             robot_ip:=192.168.0.250 \
              kinematics_config:='/calibration_file/ur3e_calibration.yaml'"

@@ -24,6 +24,12 @@ else
     echo "This is not a Raspberry Pi. Aborting the command."
 fi
 
+# DNS 
+docker run -d --name dnsmasq \
+  --network host \
+  -v ~/dnsmasq-config/dnsmasq.conf:/etc/dnsmasq.conf \
+  andyshinn/dnsmasq:2.85
+
 # Rosbridge server
 docker run -d --name "rosbridge" \
     --tty \
@@ -37,7 +43,7 @@ docker run -d --name "rosbridge" \
              roscore"
 
 # Supervisor
-docker run -d --name "robotics_supervisor" \
+docker run -d --name "robotic_supervisor" \
   --tty \
   --privileged \
   --restart "always" \
@@ -49,4 +55,12 @@ docker run -d --name "robotics_supervisor" \
   -e WATCHTOWER_HTTP_API_PERIODIC_POLLS=true \
   -p 8080:8080 \
   --label=com.centurylinklabs.watchtower.enable=false \
-  dkhoanguyen/robotics_supervisor:latest --interval 300 --http-api-update --port 8080
+  dkhoanguyen/robotic_supervisor:latest --interval 300 --http-api-update --port 8080
+
+# Dashboard
+docker run -d \
+    -p 9090:9090 \
+    --restart "always" \
+    --name robotic_dashboard \
+    --label=com.centurylinklabs.watchtower.enable=false \
+    dkhoanguyen/robotic_dashboard:latest 
