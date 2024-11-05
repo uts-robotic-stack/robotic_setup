@@ -37,16 +37,19 @@ docker run -d --name "rosbridge" \
              roslaunch rosbridge_server rosbridge_websocket.launch"
 
 # Supervisor
-docker run -d --name "robotics_supervisor" \
-  --tty \
-  --privileged \
-  --restart "always" \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -e WATCHTOWER_CLEANUP=true \
-  -e WATCHTOWER_INCLUDE_STOPPED=true \
-  -e WATCHTOWER_INCLUDE_RESTARTING=true \
-  -e WATCHTOWER_HTTP_API_TOKEN=robotics \
-  -e WATCHTOWER_HTTP_API_PERIODIC_POLLS=true \
-  -p 8080:8080 \
-  --label=com.centurylinklabs.watchtower.enable=false \
-  dkhoanguyen/robotics_supervisor:latest --interval 300 --http-api-update --port 8080
+docker run -d --name "robotic_supervisor" \
+    --tty \
+    --privileged \
+    --restart "always" \
+    -e WATCHTOWER_CLEANUP=true \
+    -e WATCHTOWER_INCLUDE_STOPPED=true \
+    -e WATCHTOWER_INCLUDE_RESTARTING=true \
+    -e WATCHTOWER_HTTP_API_TOKEN=robotics \
+    -e WATCHTOWER_HTTP_API_PERIODIC_POLLS=true \
+    -e DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket \
+    -p 8080:8080 \
+    --mount type=bind,source="$(pwd)"/config,target=/config \
+    --mount type=bind,source=/run/dbus/system_bus_socket,target=/run/dbus/system_bus_socket \
+    --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
+    --label=com.centurylinklabs.watchtower.enable=false \
+    dkhoanguyen/robotic_supervisor:latest --interval 300 --http-api-update --port 8080 --update-on-startup
