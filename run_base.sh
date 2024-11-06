@@ -56,7 +56,7 @@ docker run -d --name "robotic_supervisor" \
 
 # Dashboard
 docker run -d \
-    -p 9000:9000 \
+    -p 80:80 \
     --restart "always" \
     --name robotic_dashboard \
     dkhoanguyen/robotic_dashboard:latest
