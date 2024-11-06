@@ -48,7 +48,7 @@ docker run -d --name "robotic_supervisor" \
     -e WATCHTOWER_HTTP_API_PERIODIC_POLLS=true \
     -p 8080:8080 \
     -v "$(pwd)"/config:/config \
-    -v /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
+    -v /var/run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /proc:/proc \
     --label=com.centurylinklabs.watchtower.enable=false \
@@ -56,7 +56,7 @@ docker run -d --name "robotic_supervisor" \
 
 # Dashboard
 docker run -d \
-    -p 80:80 \
+    -p 9000:9000 \
     --restart "always" \
     --name robotic_dashboard \
     dkhoanguyen/robotic_dashboard:latest
