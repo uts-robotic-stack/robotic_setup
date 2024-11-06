@@ -53,3 +53,10 @@ docker run -d --name "robotic_supervisor" \
     -v /proc:/proc \
     --label=com.centurylinklabs.watchtower.enable=false \
     dkhoanguyen/robotic_supervisor:latest --interval 300 --http-api-update --port 8080 --update-on-startup
+
+# Dashboard
+docker run -d \
+    -p="9090:9090" \
+    --restart "always" \
+    --name robotic_dashboard \
+    dkhoanguyen/robotic_dashboard:latest 
