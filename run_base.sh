@@ -46,6 +46,7 @@ docker run -d --name "robotic_supervisor" \
     -e WATCHTOWER_INCLUDE_RESTARTING=true \
     -e WATCHTOWER_HTTP_API_TOKEN=robotics \
     -e WATCHTOWER_HTTP_API_PERIODIC_POLLS=true \
+    -e DEVICE_NAME=robotic_default \
     -p 8080:8080 \
     -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \
     -v /var/run/docker.sock:/var/run/docker.sock \
