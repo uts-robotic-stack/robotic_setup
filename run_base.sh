@@ -27,6 +27,14 @@ fi
 # Enable NetworkManager
 sudo systemctl enable NetworkManager
 
+docker volume create robotic_data
+# Redis db server
+docker run -d --name redis \
+    -p 6379:6379 \
+    -v robotic_data:/data \
+    --restart unless-stopped \
+    redis:latest
+
 # Rosbridge server
 docker run -d --name "rosbridge" \
     --tty \
@@ -54,12 +62,13 @@ docker run -d --name "robotic_supervisor" \
     -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /proc:/proc \
+    -v /dev:/dev \
     --label=com.centurylinklabs.watchtower.enable=false \
     dkhoanguyen/robotic_supervisor:latest --interval 300 --http-api-update --port 8080 --update-on-startup
 
 # Dashboard
 docker run -d \
-    -p 9000:9000 \
+    -p 80:80 \
     --restart "always" \
     --name robotic_dashboard \
     dkhoanguyen/robotic_dashboard:latest
