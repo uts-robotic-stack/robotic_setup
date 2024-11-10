@@ -25,7 +25,9 @@ else
 fi
 
 # Enable NetworkManager
+sudo cp config/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf
 sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
 
 docker volume create robotic_data
 # Redis db server
