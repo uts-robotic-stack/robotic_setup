@@ -24,6 +24,9 @@ else
     echo "This is not a Raspberry Pi. Aborting the command."
 fi
 
+# Enable NetworkManager
+sudo systemctl enable NetworkManager
+
 # Rosbridge server
 docker run -d --name "rosbridge" \
     --tty \
